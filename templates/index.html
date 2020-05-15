@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Results</title>
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+  </head>
+   <body>
+      <form action = "http://localhost:5000/result" method = "POST"
+         enctype = "multipart/form-data">
+         <input type = "file" name = "file" />
+         <input type = "submit"/>
+      </form>
+
+      <style>
+
+#results {
+  font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+#results td, #results th {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+#results tr:nth-child(even){background-color: #f2f2f2;}
+
+#results tr:hover {background-color: #ddd;}
+
+#results th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: #53cced;
+  color: white;
+}
+</style>
+
+      {{ download|safe }}
+
+
+     <table id ='results'>
+
+         <tr>
+             {% for value in headerList %}
+                 <th>{{ value }}</th>
+             {% endfor %}
+         </tr>
+         {% for item in my_list %}
+
+             <tr>
+                 {% for value in item %}
+                 <td>{{ value }}</td>
+                  {% endfor %}
+                 </tr>
+         {% endfor %}
+     </table>
+
+
+   </body>
+</html>
