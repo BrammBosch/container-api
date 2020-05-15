@@ -36,8 +36,14 @@ def upload_file_test():
             for i in value:
                 file.write(i +',')
             file.write('\n')
-        
-        return render_template('index.html',my_list=text,headerList=headerList, download= '<a href="/getPlotCSV">Download results</a>')
+
+        button = """
+        <form action="/getPlotCSV">
+    <input type="submit" value="Download results" />
+</form>
+"""
+
+        return render_template('index.html',my_list=text,headerList=headerList, download=button)
 
 @app.route("/getPlotCSV")
 def getPlotCSV():
