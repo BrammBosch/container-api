@@ -1,6 +1,5 @@
-from flask import Flask, render_template, request
-import os
-from werkzeug.utils import secure_filename
+from flask import Flask, render_template, request, Response
+import csv
 
 app = Flask(__name__, static_folder="static", static_url_path="")
 
@@ -15,11 +14,41 @@ def upload_file():
 def upload_file_test():
     if request.method == 'POST':
         f = request.files['file']
-        print(f.read())
-        f.save(secure_filename(f.filename))
-        print(f.read())
+        text = f.read().decode("utf-8")
 
-        return render_template('index.html',result='Succes')
+        text = text.split('\n')
+        text = csv.reader(text)
+
+        text = list(text)
+
+        # change text from here
+
+
+        textList = list(text)
+
+        headerList = text[0]
+        del text[0]
+        del text[-1]
+
+
+        file = open('output.txt',"w+")
+        for value in textList:
+            for i in value:
+                file.write(i +',')
+            file.write('\n')
+        
+        return render_template('index.html',my_list=text,headerList=headerList, download= '<a href="/getPlotCSV">Download results</a>')
+
+@app.route("/getPlotCSV")
+def getPlotCSV():
+    with open("output.txt") as fp:
+         csv = fp.read()
+
+    return Response(
+        csv,
+        mimetype="text/csv",
+        headers={"Content-disposition":
+                 "attachment; filename=myplot.csv"})
 
 
 if __name__ == "__main__":
