@@ -1,0 +1,16 @@
+version: '3'
+
+services:
+
+  mysql-development:
+    image: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: helloworld
+      MYSQL_DATABASE: alleleDB
+    ports:
+    - "3308:3306"
+    volumes:
+    - mydatabase:/home/anton/sqldata       #- mydatabase:/var/lib/mysql/data
+volumes:
+  mydatabase:
+  
