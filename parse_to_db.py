@@ -2,7 +2,8 @@
 import re
 import importlib.util
 
-from project.app.MySqlCon import MySqlCon
+#from project.app.MySqlCon import MySqlCon
+from MySqlCon import MySqlCon
 
 
 
