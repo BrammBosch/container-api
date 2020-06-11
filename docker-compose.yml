@@ -1,12 +1,18 @@
-version: '2'
+version: "2"
 services:
-    web:
-        build: .
-        ports:
-            - "5000:5000"
-        volumes:
-            - .:/code
-        depends_on:
-            - redis
-    redis:
-        image: redis
+  app:
+    build: .
+    links:
+      - db
+    ports:
+      - "5000:5000"
+  db:
+    image: mysql:5.7
+    ports:
+      - "32000:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+    volumes:
+      - ADD dev.sql /docker-entrypoint-initdb.d/
+     # - ./db:/docker-entrypoint-initdb.d/
+    restart: always
