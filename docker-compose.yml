@@ -1,18 +1,30 @@
 version: "2"
 services:
   app:
-    build: .
+    container_name: flask_API
+    build: ./application
     links:
       - db
     ports:
       - "5000:5000"
   db:
+    container_name: DB_container
     image: mysql:5.7
-    ports:
-      - "32000:3306"
     environment:
-      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: 'db'
+      # So you don't have to use root, but you can if you like
+      MYSQL_USER: 'bram'
+      # You can use whatever password you like
+      MYSQL_PASSWORD: 'bram'
+      # Password for root access
+      MYSQL_ROOT_PASSWORD: 'bram_2'
+    ports:       # <Port exposed> : < MySQL Port running inside container>
+      - '3306:3306'
+    expose:       # Opens port 3306 on the container
+      - '3306'       # Where our data will be persisted
+    command: --init-file /data/application/init.sql
     volumes:
-      - ADD dev.sql /docker-entrypoint-initdb.d/
-     # - ./db:/docker-entrypoint-initdb.d/
-    restart: always
+      - ./init.sql:/data/application/init.sql
+      - my-db:/var/lib/mysql # Names our volume volumes:   my-db:
+volumes:
+  my-db:
